@@ -9,17 +9,13 @@ from matplotlib import cm
 def pokazanie_wykresu(dane):
     n_theta = 36 # number of values for theta
     n_phi = 36  # number of values for phi
-    r = 2        #radius of sphere
+    r = 100      #radius of sphere
 
     theta, phi = np.mgrid[0.0:0.5*np.pi:n_theta*1j, 0.0:2.0*np.pi:n_phi*1j]
 
     x = r*np.sin(theta)*np.cos(phi)
     y = r*np.sin(theta)*np.sin(phi)
     z = r*np.cos(theta)
-
-    # mimic the input array
-    # array columns phi, theta, value
-    # first n_theta entries: phi=0, second n_theta entries: phi=0.0315..
     inp = []
     for j in phi[0,:]:
         for i in theta[:,0]:
@@ -37,9 +33,6 @@ def pokazanie_wykresu(dane):
         elementy.append(row[1])
     print("ELEMENTY")
     print(elementy)
-    #for index,row in dane.iterrows():
-   #     e=[100-float(row[1])]*73
-   #     my_color.append(e)
     for j in reversed(range(round(len(elementy)/2))):
         e=[]
         for i in range(n_theta):
@@ -55,11 +48,10 @@ def pokazanie_wykresu(dane):
     ax = fig.add_subplot(111, projection='3d')
     a=ax.plot_surface(
         x,y,z,  rstride=1, cstride=1, facecolors=my_col, alpha=0.9, linewidth=1) 
-    ax.set_xlim([-2.2,2.2])
-    ax.set_ylim([-2.2,2.2])
-    ax.set_zlim([0,4.4])
+    ax.set_xlim([-100.100,100.100])
+    ax.set_ylim([-100.100,100.100])
+    ax.set_zlim([0,100.100])
     ax.set_aspect("auto")
-    #ax.plot_wireframe(x, y, z, color="k") #not needed?!
     plt.colorbar(cm.ScalarMappable(cmap=plt.cm.gist_heat))
 
     plt.savefig(__file__+".png")
