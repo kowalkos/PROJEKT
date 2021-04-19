@@ -1,12 +1,14 @@
-import easygui
+from easygui import *
+from numpy.lib import math
 import pandas as pd
+import easygui
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 def pokazanie_wykresu(dane):
     n_theta = 36 # number of values for theta
-    n_phi = 73  # number of values for phi
+    n_phi = 36  # number of values for phi
     r = 2        #radius of sphere
 
     theta, phi = np.mgrid[0.0:0.5*np.pi:n_theta*1j, 0.0:2.0*np.pi:n_phi*1j]
@@ -30,8 +32,21 @@ def pokazanie_wykresu(dane):
     print (z.shape)
     print (c.shape)
     my_color=[]
+    elementy=[]
     for index,row in dane.iterrows():
-        e=[100-float(row[1])]*73
+        elementy.append(row[1])
+    print("ELEMENTY")
+    print(elementy)
+    #for index,row in dane.iterrows():
+   #     e=[100-float(row[1])]*73
+   #     my_color.append(e)
+    for j in reversed(range(round(len(elementy)/2))):
+        e=[]
+        for i in range(n_theta):
+            if i<n_theta/2:
+                e.append(float(elementy[-j]))
+            else:
+                e.append(float(elementy[j]))
         my_color.append(e)
     my_color=np.array(my_color)
     print(my_color)
@@ -67,9 +82,20 @@ def odczyt_pliku():
             i+=1
         else:
             return dane[i:]
-dane=odczyt_pliku()
-print(dane)
-pokazanie_wykresu(dane)
+
+wersja="MODELOWANIE 3D v0.01"
+opcje=['Choice 1: Otwarcie pliku z danymi','Choice2: Stworzenie Modelu','Choice3: Wyjdź']
+button = buttonbox(" ",title=wersja,choices=opcje)
+while True:
+    if button==opcje[0]:
+        dane=odczyt_pliku()
+        button = buttonbox(" ",title=wersja,choices=opcje)
+    elif button==opcje[1]:
+        pokazanie_wykresu(dane)
+        button = buttonbox(" ",title=wersja,choices=opcje)
+    elif button==opcje[2]:
+        break
+
 
 
 
